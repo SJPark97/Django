@@ -7,7 +7,7 @@ def index(request):
     articles = Article.objects.order_by('-pk')
     # articles = Article.objects.all()
     context = {
-        'articles' : articles,
+        'articles': articles,
     }
     return render(request, 'articles/index.html', context)
 
@@ -35,7 +35,9 @@ def create(request):
 
     # Article.objects.create(title=title, content=content, created_at=created_at, updated_at=updated_at)
 
-    article = Article(title=title, content=content, created_at=created_at, updated_at=updated_at)
+    article = Article(
+        title=title, content=content, created_at=created_at, updated_at=updated_at
+    )
     article.save()
 
     # return render(request, 'articles/create.html')
@@ -44,8 +46,12 @@ def create(request):
 
 def detail(request, pk):
     article = Article.objects.get(pk=pk)
+    NEXT = pk + 1
+    PREV = pk - 1
     context = {
-        'article' : article,
+        'article': article,
+        'NEXT': NEXT,
+        'PREV': PREV,
     }
 
     return render(request, 'articles/detail.html', context)
@@ -61,7 +67,7 @@ def delete(request, pk):
 def edit(request, pk):
     article = Article.objects.get(pk=pk)
     context = {
-        'article' : article,
+        'article': article,
     }
 
     return render(request, 'articles/edit.html', context)
@@ -74,4 +80,3 @@ def update(request, pk):
     article.save()
 
     return redirect('articles:detail', article.pk)
-

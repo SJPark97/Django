@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+
+{% block content %}
+  <h1>CREATE</h1>
+  <form action="{% url 'articles:create' %}" method="POST">
+    {% comment %} 포스트 요청떄는 무조건 csrf 토큰이 들어가야한다. {% endcomment %}
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% comment %} <label for="title">Title:</label>
+    <input type="text" id="title" name="title">
+    <br>
+    <label for="content">Content:</label>
+    <textarea name="content" id="content"></textarea>
+    <br> {% endcomment %}
+    <input type="submit">
+  </form>
+  <a href="{% url 'articles:index' %}">뒤로가기</a>
+
+  <hr>
+  <h2>수동으로 Form 작성</h2>
+  <form action="#">
+    <div>
+      {{ form.title.label_tag }}
+      {{ form.title }}
+      {{ form.title.errors }}
+    </div>
+    <div>
+      {{ form.content.errors }}
+      {{ form.content.label_tag }}
+      {{ form.content }}
+    </div>
+  </form>
+
+  <hr>
+  <h2>Longping over the form's fields</h2>
+  <form action="#">
+    {% for field in form %}
+      {{ field.error }}
+      {{ field.label_tag }}
+      {{ field }}
+    {% endfor %}
+  </form>
+
+  <hr>
+
+  <h2>bootstrap v5 라이브러리 사용하기</h2>
+  <form action="#">
+    {% bootstrap_form form %}
+  </form>
+
+{% endblock %}
